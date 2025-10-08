@@ -1,0 +1,85 @@
+<!-- BIRTHDAY COUNTDOWN -->
+<div class="birthday-container">
+  <h2 id="birthday-heading"></h2>
+  <div id="countdown" class="countdown"></div>
+</div>
+
+<style>
+  .birthday-container {
+    text-align: center;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #222;
+    margin: 60px auto;
+  }
+
+  #birthday-heading {
+    font-size: 1.8em;
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.5em;
+    font-weight: 500;
+  }
+
+  .countdown span {
+    display: inline-block;
+    min-width: 70px;
+  }
+
+  @media (max-width: 600px) {
+    .countdown {
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 1.2em;
+    }
+  }
+</style>
+
+<script>
+  // Set the birthday (month is 0-indexed: 9 = October)
+  const birthdayMonth = 9; // October
+  const birthdayDay = 7;
+
+  const heading = document.getElementById("birthday-heading");
+  const countdown = document.getElementById("countdown");
+
+  function updateCountdown() {
+    const now = new Date();
+    let targetYear = now.getFullYear();
+    const target = new Date(targetYear, birthdayMonth, birthdayDay);
+
+    // If the birthday has already passed this year, use next year
+    if (now > target) target.setFullYear(targetYear + 1);
+
+    const diff = target - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((diff / (1000 * 60)) % 60);
+    const seconds = Math.floor((diff / 1000) % 60);
+
+    const today = new Date();
+    if (
+      today.getDate() === birthdayDay &&
+      today.getMonth() === birthdayMonth
+    ) {
+      heading.textContent = "Mitch Ryan's birthday is today";
+      countdown.innerHTML = "";
+    } else {
+      heading.textContent = "Mitch Ryan's birthday is in:";
+      countdown.innerHTML = `
+        <span>${days}d</span>
+        <span>${hours}h</span>
+        <span>${minutes}m</span>
+        <span>${seconds}s</span>
+      `;
+    }
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
