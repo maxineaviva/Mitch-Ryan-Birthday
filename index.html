@@ -1,59 +1,66 @@
 <!-- BIRTHDAY COUNTDOWN -->
 <div class="birthday-container">
-  <h2 id="birthday-heading"></h2>
-  <div id="countdown" class="countdown"></div>
+  <div class="birthday-content">
+    <h2 id="birthday-heading"></h2>
+    <div id="countdown" class="countdown"></div>
+    <img id="birthday-photo" src="https://github.com/maxineaviva/Mitch-Ryan-Birthday/blob/main/Untitled1.jpeg?raw=true" alt="Birthday Photo" style="display:none; margin-top:15px; max-width:200px; border-radius:6px;">
+  </div>
 </div>
 
 <style>
-  .birthday-container {
-    text-align: center;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 12pt;
     color: #222;
-    margin: 60px auto;
+  }
+
+  .birthday-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+  }
+
+  .birthday-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   #birthday-heading {
-    font-size: 1.8em;
-    font-weight: 600;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .countdown {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    font-size: 1.5em;
-    font-weight: 500;
+    gap: 10px;
   }
 
   .countdown span {
     display: inline-block;
-    min-width: 70px;
-  }
-
-  @media (max-width: 600px) {
-    .countdown {
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 1.2em;
-    }
+    min-width: 40px;
   }
 </style>
 
 <script>
   // Set the birthday (month is 0-indexed: 9 = October)
   const birthdayMonth = 9; // October
-  const birthdayDay = 7;
+  const birthdayDay = 8;
 
   const heading = document.getElementById("birthday-heading");
   const countdown = document.getElementById("countdown");
+  const photo = document.getElementById("birthday-photo");
 
   function updateCountdown() {
     const now = new Date();
     let targetYear = now.getFullYear();
     const target = new Date(targetYear, birthdayMonth, birthdayDay);
 
-    // If the birthday has already passed this year, use next year
+    // If the birthday has already passed this year, count to next year
     if (now > target) target.setFullYear(targetYear + 1);
 
     const diff = target - now;
@@ -63,14 +70,14 @@
     const seconds = Math.floor((diff / 1000) % 60);
 
     const today = new Date();
-    if (
-      today.getDate() === birthdayDay &&
-      today.getMonth() === birthdayMonth
-    ) {
+    if (today.getDate() === birthdayDay && today.getMonth() === birthdayMonth) {
       heading.textContent = "Mitch Ryan's birthday is today";
-      countdown.innerHTML = "";
+      countdown.style.display = "none";
+      photo.style.display = "block";
     } else {
       heading.textContent = "Mitch Ryan's birthday is in:";
+      countdown.style.display = "flex";
+      photo.style.display = "none";
       countdown.innerHTML = `
         <span>${days}d</span>
         <span>${hours}h</span>
